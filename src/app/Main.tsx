@@ -1,12 +1,8 @@
 import react from "react";
+import Link from "next/link";
 
+import Frame from "@components/Frame";
 import {
-  Conatiner,
-  NavBar,
-  Logo,
-  ProfileContainer,
-  LinkItems,
-  LinkItem,
   Body,
   SessionCardContainer,
   SessionCard,
@@ -45,18 +41,7 @@ const Main = () => {
   }, [screenWidth]);
 
   return (
-    <Conatiner>
-      <NavBar>
-        <Logo>Logo</Logo>
-        <ProfileContainer>profile</ProfileContainer>
-
-        <LinkItems>
-          <LinkItem>링크1</LinkItem>
-          <LinkItem>링크2</LinkItem>
-          <LinkItem>링크3</LinkItem>
-        </LinkItems>
-      </NavBar>
-
+    <Frame>
       <Body>
         <SessionCardContainer>
           <SessionCard backgroundColor={colors.primary.veryveryDark}>
@@ -104,14 +89,19 @@ const Main = () => {
 
         <MiddleSection>
           <GameCardContainer>
-            <GameCard>
-              <GameCardTitle>세션 만들기</GameCardTitle>
-              <NavigateIcon size={"2rem"} color={"#fff"} />
-            </GameCard>
-            <GameCard>
-              <GameCardTitle>세션 들어가기</GameCardTitle>
-              <NavigateIcon size={"2rem"} color={"#fff"} />
-            </GameCard>
+            <Link href="/makeSession" style={{ textDecoration: "none" }}>
+              <GameCard>
+                <GameCardTitle>세션 만들기</GameCardTitle>
+                <NavigateIcon size={"2rem"} color={"#fff"} />
+              </GameCard>
+            </Link>
+
+            <Link href="/makeSession" style={{ textDecoration: "none" }}>
+              <GameCard>
+                <GameCardTitle>세션 들어가기</GameCardTitle>
+                <NavigateIcon size={"2rem"} color={"#fff"} />
+              </GameCard>
+            </Link>
           </GameCardContainer>
 
           <FriendContainer>
@@ -123,7 +113,7 @@ const Main = () => {
 
         <BottomSection>준비중!</BottomSection>
       </Body>
-    </Conatiner>
+    </Frame>
   );
 };
 

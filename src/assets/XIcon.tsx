@@ -1,4 +1,4 @@
-const XIcon = ({ size, color }: { size: number; color: string }) => {
+const XIcon = ({ size, color }: { size: string; color: string }) => {
   return (
     <svg
       width={size}

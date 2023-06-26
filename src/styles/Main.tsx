@@ -1,78 +1,18 @@
 import styled from "styled-components";
 import { colors } from "@styles/colors";
 
-const Conatiner = styled.div`
-  display: flex;
-
-  width: 90vw;
-  max-width: 1200px;
-
-  border: 2px solid ${colors.primary.standard};
-  border-radius: 2rem;
-`;
-
-const NavBar = styled.div`
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-
-  background: ${colors.primary.veryDark};
-  width: 15rem;
-  padding: 1.6rem 2rem;
-
-  border-radius: 2rem;
-
-  @media (max-width: 1200px) {
-    display: none;
-  }
-`;
-const Logo = styled.h1`
-  color: ${colors.text.light};
-  font-size: 2rem;
-  margin-bottom: 1rem;
-
-  border: 1px solid white;
-  border-radius: 1rem;
-`;
-const ProfileContainer = styled.div`
-  width: 100%;
-  height: 10rem;
-
-  border: 1px solid white;
-  border-radius: 1rem;
-`;
-const LinkItems = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-
-  padding: 2rem 0 0 0;
-`;
-const LinkItem = styled.button`
-  width: 100%;
-  padding: 0.6rem 1.2rem;
-  background: transparent;
-
-  border: 1px solid white;
-  border-radius: 1rem;
-
-  color: white;
-`;
-
 const Body = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 0.6rem;
 
   padding: 1.4rem;
-
-  border-radius: 2rem;
 `;
 const SessionCardContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 1.2rem;
+  gap: 0.6rem;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr 1fr;
@@ -89,7 +29,7 @@ const SessionCard = styled.button`
   height: 10rem;
   padding: 1rem 1rem;
   border: 2px solid ${({ backgroundColor }) => backgroundColor};
-  border-radius: 2rem;
+  border-radius: 1.6rem;
   outline: none;
 
   cursor: pointer;
@@ -135,7 +75,7 @@ const NavigateIconWrapper = styled.div`
 const MiddleSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 0.6rem;
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
@@ -145,7 +85,7 @@ const MiddleSection = styled.div`
 const GameCardContainer = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr;
-  gap: 1rem;
+  gap: 0.6rem;
 `;
 const GameCard = styled.div`
   display: flex;
@@ -158,7 +98,7 @@ const GameCard = styled.div`
   height: 5rem;
   padding: 0 1rem;
   border: none;
-  border-radius: 2rem;
+  border-radius: 1.6rem;
   outline: none;
 
   cursor: pointer;
@@ -182,10 +122,19 @@ const FriendContainer = styled.div`
   height: 11rem;
   padding: 1rem 1rem;
 
-  border-radius: 2rem;
+  border-radius: 1.6rem;
 `;
 const TmpP = styled.p`
   overflow-y: scroll;
+  padding-right: 1rem;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: ${colors.primary.standard};
+  }
 `;
 
 const BottomSection = styled.div`
@@ -200,17 +149,11 @@ const BottomSection = styled.div`
   height: 12rem;
 
   border: none;
-  border-radius: 2rem;
+  border-radius: 1.6rem;
   outline: none;
 `;
 
 export {
-  Conatiner,
-  NavBar,
-  Logo,
-  ProfileContainer,
-  LinkItems,
-  LinkItem,
   Body,
   SessionCardContainer,
   SessionCard,
