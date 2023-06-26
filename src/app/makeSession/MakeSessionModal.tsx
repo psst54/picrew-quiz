@@ -79,11 +79,40 @@ const MakeSessionModal = ({
   const [isOpen, setIsOpen] = react.useState(false);
   const userId = useAppSelector((state) => state.userReducer.id);
 
+  const sessinNameIsEmpty = () => {
+    return sessionName === "";
+  };
+
+  const picrewLinkIsEmpty = () => {
+    return picrewLink === "";
+  };
+
+  const isValidPicrewLink = () => {
+    if (picrewLink.includes("picrew.me/ja/image_maker/")) return true;
+    if (picrewLink.includes("picrew.me/en/image_maker/")) return true;
+    return false;
+  };
+
   return (
     <Container>
       <ConfirmButton
         isPrimary
         onClick={() => {
+          if (sessinNameIsEmpty()) {
+            alert("세션 이름을 입력해주세요");
+            return;
+          }
+
+          if (picrewLinkIsEmpty()) {
+            alert("픽크루 링크를 입력해주세요");
+            return;
+          }
+
+          if (!isValidPicrewLink()) {
+            alert("픽크루 링크를 확인해주세요");
+            return;
+          }
+
           setIsOpen(true);
         }}
       >
@@ -102,20 +131,23 @@ const MakeSessionModal = ({
             <ConfirmButton
               isPrimary
               onClick={async () => {
+                const sessionId = "testId" + new Date().getTime();
+                const password = "testPassword" + new Date().getTime();
+
                 try {
-                  const res = await supabase.from("gameSessions").insert([
+                  await supabase.from("gameSessions").insert([
                     {
-                      sessioin_id: "testId" + new Date().getTime(),
+                      sessioin_id: sessionId,
                       session_name: sessionName,
                       picrew_link: picrewLink,
                       made_by: userId,
-                      password: new Date().getTime(),
+                      password,
                     },
                   ]);
 
                   router.push("/session");
                 } catch (err) {
-                  // console.error("[debug]", err);
+                  console.error("[debug]", err);
                 }
               }}
             >
