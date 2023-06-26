@@ -1,6 +1,18 @@
 import styled from "styled-components";
 import { colors } from "@styles/colors";
 
+const Background = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+
+  background: ${colors.background};
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -89,6 +101,7 @@ const Button = styled.button`
 `;
 
 export {
+  Background,
   Title,
   PrimaryContainer,
   SecondaryContainer,

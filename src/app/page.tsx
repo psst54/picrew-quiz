@@ -15,23 +15,13 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
 const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  min-height: 100vh;
-  padding: 2rem 1rem;
-
-  background: ${colors.background};
-`;
+import { Background } from "@styles/styles";
 
 const Home = () => {
   const isSignIn = useAppSelector((state) => state.userReducer.isSignIn);
 
   return (
-    <Container>{true ? <Main /> : <SignIn supabase={supabase} />}</Container>
+    <Background>{true ? <Main /> : <SignIn supabase={supabase} />}</Background>
   );
 };
 
