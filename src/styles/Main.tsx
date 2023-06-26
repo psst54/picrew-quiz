@@ -5,16 +5,14 @@ const Body = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 0.6rem;
 
   padding: 1.4rem;
-
-  border-radius: 2rem;
 `;
 const SessionCardContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 1.2rem;
+  gap: 0.6rem;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr 1fr;
@@ -31,7 +29,7 @@ const SessionCard = styled.button`
   height: 10rem;
   padding: 1rem 1rem;
   border: 2px solid ${({ backgroundColor }) => backgroundColor};
-  border-radius: 2rem;
+  border-radius: 1.6rem;
   outline: none;
 
   cursor: pointer;
@@ -77,7 +75,7 @@ const NavigateIconWrapper = styled.div`
 const MiddleSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  gap: 0.6rem;
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
@@ -87,7 +85,7 @@ const MiddleSection = styled.div`
 const GameCardContainer = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr;
-  gap: 1rem;
+  gap: 0.6rem;
 `;
 const GameCard = styled.div`
   display: flex;
@@ -100,7 +98,7 @@ const GameCard = styled.div`
   height: 5rem;
   padding: 0 1rem;
   border: none;
-  border-radius: 2rem;
+  border-radius: 1.6rem;
   outline: none;
 
   cursor: pointer;
@@ -124,10 +122,19 @@ const FriendContainer = styled.div`
   height: 11rem;
   padding: 1rem 1rem;
 
-  border-radius: 2rem;
+  border-radius: 1.6rem;
 `;
 const TmpP = styled.p`
   overflow-y: scroll;
+  padding-right: 1rem;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: ${colors.primary.standard};
+  }
 `;
 
 const BottomSection = styled.div`
@@ -142,7 +149,7 @@ const BottomSection = styled.div`
   height: 12rem;
 
   border: none;
-  border-radius: 2rem;
+  border-radius: 1.6rem;
   outline: none;
 `;
 
