@@ -5,18 +5,24 @@ import { Background } from "@styles/styles";
 
 import styled from "styled-components";
 import { colors } from "@styles/colors";
-import { Button } from "@styles/styles";
+import MakeSessionModal from "./MakeSessionModal";
 
 const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
   width: 100%;
   padding: 3rem 4rem;
+
+  @media (max-width: 600px) {
+    padding: 3rem 2rem;
+  }
 `;
 
 const Title = styled.h1`
   display: flex;
   align-items: center;
-
-  margin-bottom: 2rem;
 
   color: ${colors.text.light};
   font-size: 1.6rem;
@@ -43,7 +49,7 @@ const InputTitle = styled.h2`
 `;
 const Input = styled.input`
   width: 80%;
-  max-width: 32rem;
+  max-width: 100%;
   min-width: 16rem;
   padding: 0.4rem 0;
   background: transparent;
@@ -53,12 +59,6 @@ const Input = styled.input`
   outline: none;
 
   color: ${colors.text.light};
-`;
-
-const SmallButton = styled(Button)`
-  width: auto;
-  padding: 0.8rem 4rem;
-  margin-top: 6rem;
 `;
 
 const MakeSession = () => {
@@ -83,16 +83,7 @@ const MakeSession = () => {
             </InputItem>
           </InputItems>
 
-          <SmallButton
-            isPrimary
-            onClick={() => {
-              console.log("[debug]", "make session");
-            }}
-          >
-            세션 만들기
-          </SmallButton>
-
-          {/* <Modal /> */}
+          <MakeSessionModal />
         </Body>
       </Frame>
     </Background>
