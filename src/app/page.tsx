@@ -1,13 +1,21 @@
 "use client";
 
+import react from "react";
 import styled from "styled-components";
 
-const Tmp = styled.div`
-  width: 2rem;
-  height: 2rem;
-  background: black;
+import { colors } from "@styles/colors";
+
+import SignIn from "./SignIn";
+
+const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+
+  background: ${colors.background};
 `;
 
 export default function Home() {
-  return <Tmp />;
+  const [isLogin, setIsLogin] = react.useState(false);
+
+  return <Container>{isLogin ? <></> : <SignIn />}</Container>;
 }
