@@ -11,7 +11,7 @@ import {
   Button,
 } from "@styles/styles";
 
-const NotSignedIn = () => {
+const SignUp = () => {
   return (
     <Container>
       <Title>만창 Picrew</Title>
@@ -27,17 +27,22 @@ const NotSignedIn = () => {
             <InputTitle>비밀번호</InputTitle>
             <Input />
           </InputItem>
+
+          <InputItem>
+            <InputTitle>비밀번호 확인</InputTitle>
+            <Input />
+          </InputItem>
         </InputItems>
 
-        <Button isPrimary>로그인하기</Button>
+        <Button isPrimary>회원가입하기</Button>
       </PrimaryContainer>
 
       <SecondaryContainer>
-        <SignUpDesc>아직 계정이 없다면</SignUpDesc>
-        <Button>이메일로 가입하기</Button>
+        <SignUpDesc>이미 계정이 있다면</SignUpDesc>
+        <Button>로그인하기</Button>
       </SecondaryContainer>
     </Container>
   );
 };
 
-export default NotSignedIn;
+export default SignUp;

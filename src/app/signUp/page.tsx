@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 import { colors } from "@styles/colors";
 
-import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 const Container = styled.div`
   width: 100vw;
@@ -14,8 +14,12 @@ const Container = styled.div`
   background: ${colors.background};
 `;
 
-export default function Home() {
-  const [isLogin, setIsLogin] = react.useState(false);
+const SignUpPage = () => {
+  return (
+    <Container>
+      <SignUp />
+    </Container>
+  );
+};
 
-  return <Container>{isLogin ? <></> : <SignIn />}</Container>;
-}
+export default SignUpPage;

@@ -8,7 +8,7 @@ const Container = styled.div`
   justify-content: center;
 
   width: 100%;
-  height: 100%;
+  height: 100vh;
 `;
 
 const Title = styled.h1`
@@ -17,7 +17,7 @@ const Title = styled.h1`
   margin-bottom: 3rem;
 `;
 
-const SignInContainer = styled.div`
+const PrimaryContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -29,6 +29,21 @@ const SignInContainer = styled.div`
   border: 1px solid ${colors.primary};
   border-radius: 1rem;
 `;
+const SecondaryContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 90vw;
+  max-width: 26rem;
+  padding: 2rem;
+`;
+const SignUpDesc = styled.p`
+  margin-bottom: 0.4rem;
+
+  color: ${colors.primary};
+`;
+
 const InputItems = styled.div`
   display: flex;
   flex-direction: column;
@@ -73,30 +88,15 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const SignUpContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 90vw;
-  max-width: 26rem;
-  padding: 2rem;
-`;
-const SignUpDesc = styled.p`
-  margin-bottom: 0.4rem;
-
-  color: ${colors.primary};
-`;
-
 export {
-  Container,
   Title,
-  SignInContainer,
+  PrimaryContainer,
+  SecondaryContainer,
+  SignUpDesc,
+  Container,
   InputItems,
   InputItem,
   InputTitle,
   Input,
   Button,
-  SignUpContainer,
-  SignUpDesc,
 };
