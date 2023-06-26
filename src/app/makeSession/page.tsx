@@ -2,12 +2,19 @@
 
 import react from "react";
 
-import Frame from "@components/Frame";
-import { Background } from "@styles/styles";
-
 import styled from "styled-components";
 import { colors } from "@styles/colors";
+
+import Frame from "@components/Frame";
+import { Background } from "@styles/styles";
+import {
+  CheckPasswordContainer,
+  CheckPasswordItem,
+} from "@styles/signUp/SignUp";
+
 import MakeSessionModal from "./MakeSessionModal";
+import CheckIcon from "@assets/CheckIcon";
+import XIcon from "@assets//XIcon";
 
 const Body = styled.div`
   display: flex;
@@ -66,6 +73,15 @@ const Input = styled.input`
 const MakeSession = () => {
   const [sessionName, setSessionName] = react.useState("");
   const [picrewLink, setPicrewLink] = react.useState("");
+  const [password, setPassword] = react.useState("");
+
+  const checkPasswordMinLength = react.useCallback(() => {
+    return password.length >= 4;
+  }, [password]);
+
+  const checkPasswordMaxLength = react.useCallback(() => {
+    return password !== "" && password.length <= 20;
+  }, [password]);
 
   return (
     <Background>
@@ -96,9 +112,44 @@ const MakeSession = () => {
                 }}
               />
             </InputItem>
+
+            <InputItem>
+              <InputTitle>비밀번호</InputTitle>
+              <Input
+                value={password}
+                onChange={(event: react.ChangeEvent<HTMLInputElement>) => {
+                  setPassword(event.target.value);
+                }}
+              />
+            </InputItem>
+
+            <CheckPasswordContainer>
+              <CheckPasswordItem isValid={checkPasswordMinLength()}>
+                {checkPasswordMinLength() ? (
+                  <CheckIcon size={"1rem"} color={colors.valid} />
+                ) : (
+                  <XIcon size={"1rem"} color={colors.invalid} />
+                )}
+                4자리 이상
+              </CheckPasswordItem>
+              <CheckPasswordItem isValid={checkPasswordMaxLength()}>
+                {checkPasswordMaxLength() ? (
+                  <CheckIcon size={"1rem"} color={colors.valid} />
+                ) : (
+                  <XIcon size={"1rem"} color={colors.invalid} />
+                )}
+                20자리 이하
+              </CheckPasswordItem>
+            </CheckPasswordContainer>
           </InputItems>
 
-          <MakeSessionModal sessionName={sessionName} picrewLink={picrewLink} />
+          <MakeSessionModal
+            sessionName={sessionName}
+            picrewLink={picrewLink}
+            password={password}
+            checkPasswordMinLength={checkPasswordMinLength}
+            checkPasswordMaxLength={checkPasswordMaxLength}
+          />
         </Body>
       </Frame>
     </Background>

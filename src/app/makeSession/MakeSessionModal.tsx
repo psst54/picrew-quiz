@@ -4,6 +4,7 @@ import react from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import { useAppSelector } from "@/redux/hooks";
+import CryptoJS from "crypto-js";
 
 import styled from "styled-components";
 import { colors } from "@styles/colors";
@@ -71,9 +72,15 @@ const Description = styled.p`
 const MakeSessionModal = ({
   sessionName,
   picrewLink,
+  password,
+  checkPasswordMinLength,
+  checkPasswordMaxLength,
 }: {
   sessionName: string;
   picrewLink: string;
+  password: string;
+  checkPasswordMinLength: Function;
+  checkPasswordMaxLength: Function;
 }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = react.useState(false);
@@ -113,6 +120,16 @@ const MakeSessionModal = ({
             return;
           }
 
+          if (!checkPasswordMinLength()) {
+            alert("비밀번호는 4자리 이상이어야 합니다");
+            return;
+          }
+
+          if (!checkPasswordMaxLength()) {
+            alert("비밀번호는 20자리 이하여야 합니다");
+            return;
+          }
+
           setIsOpen(true);
         }}
       >
@@ -131,8 +148,9 @@ const MakeSessionModal = ({
             <ConfirmButton
               isPrimary
               onClick={async () => {
-                const sessionId = "testId" + new Date().getTime();
-                const password = "testPassword" + new Date().getTime();
+                const sessionId = CryptoJS.SHA256(
+                  sessionName + new Date().getTime()
+                ).toString();
 
                 try {
                   await supabase.from("gameSessions").insert([

@@ -20,8 +20,8 @@ import {
   CheckPasswordItem,
 } from "@styles/signUp/SignUp";
 
-import CheckIcon from "./CheckIcon";
-import XIcon from "./XIcon";
+import CheckIcon from "@assets/CheckIcon";
+import XIcon from "@assets//XIcon";
 
 const SignUp = ({ supabase }: { supabase: Database }) => {
   const [email, setEmail] = react.useState("");
