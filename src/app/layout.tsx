@@ -1,4 +1,5 @@
 import "./globals.css";
+import StyledComponentsRegistry from "@libs/registry";
 
 export const metadata = {
   title: "Picrew Quiz",
@@ -12,7 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body>{children}</body>
+      <body>
+        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+      </body>
     </html>
   );
 }

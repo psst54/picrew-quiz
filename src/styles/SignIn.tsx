@@ -60,11 +60,11 @@ const Button = styled.button`
   border: none;
 
   border: ${({ isPrimary }) =>
-    isPrimary ? "none" : "1px solid ${colors.primary}"};
+    isPrimary ? "none" : `1px solid ${colors.primary}`};
   border-radius: 0.8rem;
 
   background: ${({ isPrimary }) =>
-    isPrimary ? "${colors.primary}" : "transparent"};
+    isPrimary ? colors.primary : "transparent"};
 
   color: ${colors.text.light};
   font-size: 1.2rem;
