@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colors } from "@styles/colors";
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +12,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  color: #da6880;
+  color: ${colors.primary};
   font-size: 3rem;
   margin-bottom: 3rem;
 `;
@@ -25,7 +26,7 @@ const SignInContainer = styled.div`
   max-width: 26rem;
   padding: 2.4rem 2rem;
 
-  border: 1px solid #da6880;
+  border: 1px solid ${colors.primary};
   border-radius: 1rem;
 `;
 const InputItems = styled.div`
@@ -38,7 +39,7 @@ const InputItem = styled.div`
   flex-direction: column;
 `;
 const InputTitle = styled.p`
-  color: #fff;
+  color: ${colors.text.light};
   font-size: 1.2rem;
 `;
 const Input = styled.input`
@@ -47,10 +48,10 @@ const Input = styled.input`
   background: transparent;
 
   border: none;
-  border-bottom: 2px solid #da6880;
+  border-bottom: 2px solid ${colors.primary};
   outline: none;
 
-  color: white;
+  color: ${colors.text.light};
 `;
 const Button = styled.button`
   width: 100%;
@@ -58,12 +59,14 @@ const Button = styled.button`
 
   border: none;
 
-  border: ${({ isPrimary }) => (isPrimary ? "none" : "1px solid #da6880")};
+  border: ${({ isPrimary }) =>
+    isPrimary ? "none" : "1px solid ${colors.primary}"};
   border-radius: 0.8rem;
 
-  background: ${({ isPrimary }) => (isPrimary ? "#da6880" : "transparent")};
+  background: ${({ isPrimary }) =>
+    isPrimary ? "${colors.primary}" : "transparent"};
 
-  color: white;
+  color: ${colors.text.light};
   font-size: 1.2rem;
   font-weight: 500;
 
@@ -82,7 +85,7 @@ const SignUpContainer = styled.div`
 const SignUpDesc = styled.p`
   margin-bottom: 0.4rem;
 
-  color: #da6880;
+  color: ${colors.primary};
 `;
 
 export {
