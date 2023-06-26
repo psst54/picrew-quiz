@@ -1,22 +1,24 @@
+import Link from "next/link";
+
 import {
   Container,
   Title,
-  SignInContainer,
+  PrimaryContainer,
+  SecondaryContainer,
+  SignUpDesc,
   InputItems,
   InputItem,
   InputTitle,
   Input,
   Button,
-  SignUpContainer,
-  SignUpDesc,
-} from "@styles/SignIn";
+} from "@styles/styles";
 
 const NotSignedIn = () => {
   return (
     <Container>
       <Title>만창 Picrew</Title>
 
-      <SignInContainer>
+      <PrimaryContainer>
         <InputItems>
           <InputItem>
             <InputTitle>이메일</InputTitle>
@@ -30,12 +32,14 @@ const NotSignedIn = () => {
         </InputItems>
 
         <Button isPrimary>로그인하기</Button>
-      </SignInContainer>
+      </PrimaryContainer>
 
-      <SignUpContainer>
+      <SecondaryContainer>
         <SignUpDesc>아직 계정이 없다면</SignUpDesc>
-        <Button>이메일로 가입하기</Button>
-      </SignUpContainer>
+        <Link href="/signUp" style={{ width: "100%" }}>
+          <Button>이메일로 가입하기</Button>
+        </Link>
+      </SecondaryContainer>
     </Container>
   );
 };
