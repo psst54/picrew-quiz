@@ -33,8 +33,6 @@ const SignIn = ({ supabase }: { supabase: Database }) => {
       if (error) throw new Error("로그인 실패");
 
       dispatch(setSignIn(data.user.id));
-
-      console.log("[debug]", data);
     } catch (e) {
       alert("로그인에 실패했습니다.\n잠시 뒤에 다시 시도해주세요");
     }
