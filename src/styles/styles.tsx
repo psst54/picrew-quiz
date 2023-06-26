@@ -12,7 +12,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  color: ${colors.primary};
+  color: ${colors.primary.standard};
   font-size: 3rem;
   margin-bottom: 3rem;
 `;
@@ -26,7 +26,7 @@ const PrimaryContainer = styled.div`
   max-width: 26rem;
   padding: 2.4rem 2rem;
 
-  border: 1px solid ${colors.primary};
+  border: 1px solid ${colors.primary.standard};
   border-radius: 1rem;
 `;
 const SecondaryContainer = styled.div`
@@ -41,7 +41,7 @@ const SecondaryContainer = styled.div`
 const SignUpDesc = styled.p`
   margin-bottom: 0.4rem;
 
-  color: ${colors.primary};
+  color: ${colors.primary.standard};
 `;
 
 const InputItems = styled.div`
@@ -63,7 +63,7 @@ const Input = styled.input`
   background: transparent;
 
   border: none;
-  border-bottom: 2px solid ${colors.primary};
+  border-bottom: 2px solid ${colors.primary.standard};
   outline: none;
 
   color: ${colors.text.light};
@@ -75,11 +75,11 @@ const Button = styled.button`
   border: none;
 
   border: ${({ isPrimary }) =>
-    isPrimary ? "none" : `1px solid ${colors.primary}`};
+    isPrimary ? "none" : `1px solid ${colors.primary.standard}`};
   border-radius: 0.8rem;
 
   background: ${({ isPrimary }) =>
-    isPrimary ? colors.primary : "transparent"};
+    isPrimary ? colors.primary.standard : "transparent"};
 
   color: ${colors.text.light};
   font-size: 1.2rem;
