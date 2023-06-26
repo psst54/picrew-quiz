@@ -1,12 +1,9 @@
 "use client";
 
 import { createClient } from "@supabase/supabase-js";
-import styled from "styled-components";
-
 import { useAppSelector } from "@/redux/hooks";
 
 import { Database } from "@libs/types";
-import { colors } from "@styles/colors";
 
 import Main from "./Main";
 import SignIn from "./SignIn";
@@ -21,7 +18,9 @@ const Home = () => {
   const isSignIn = useAppSelector((state) => state.userReducer.isSignIn);
 
   return (
-    <Background>{true ? <Main /> : <SignIn supabase={supabase} />}</Background>
+    <Background>
+      {isSignIn ? <Main /> : <SignIn supabase={supabase} />}
+    </Background>
   );
 };
 

@@ -1,9 +1,18 @@
+"use client";
+
 import react from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { createClient } from "@supabase/supabase-js";
+import { useAppSelector } from "@/redux/hooks";
 
 import styled from "styled-components";
 import { colors } from "@styles/colors";
 import { Button } from "@styles/styles";
+import { Database } from "@libs/types";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
 const Container = styled.div`
   display: flex;
@@ -46,10 +55,10 @@ const Modal = styled.div`
   max-width: 400px;
 
   background: ${colors.background};
-  border: 1px solid #fff;
-  border-radius: 1rem;
+  border: 1px solid ${colors.primary.standard};
+  border-radius: 2rem;
 
-  top: 20vh;
+  top: 25vh;
   left: max(10vw, calc((100vw - 400px) / 2));
 
   z-index: 10;
@@ -59,8 +68,16 @@ const Description = styled.p`
   font-size: 1.2rem;
 `;
 
-const MakeSessionModal = () => {
+const MakeSessionModal = ({
+  sessionName,
+  picrewLink,
+}: {
+  sessionName: string;
+  picrewLink: string;
+}) => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = react.useState(false);
+  const userId = useAppSelector((state) => state.userReducer.id);
 
   return (
     <Container>
@@ -68,7 +85,6 @@ const MakeSessionModal = () => {
         isPrimary
         onClick={() => {
           setIsOpen(true);
-          console.log("[debug]", "make session");
         }}
       >
         세션 만들기
@@ -83,16 +99,28 @@ const MakeSessionModal = () => {
           />
           <Modal>
             <Description>이대로 세션을 생성합니다</Description>
-            <Link href="/session?id=test" style={{ textDecoration: "none" }}>
-              <ConfirmButton
-                isPrimary
-                onClick={() => {
-                  setIsOpen(false);
-                }}
-              >
-                확인
-              </ConfirmButton>
-            </Link>
+            <ConfirmButton
+              isPrimary
+              onClick={async () => {
+                try {
+                  const res = await supabase.from("gameSessions").insert([
+                    {
+                      sessioin_id: "testId" + new Date().getTime(),
+                      session_name: sessionName,
+                      picrew_link: picrewLink,
+                      made_by: userId,
+                      password: new Date().getTime(),
+                    },
+                  ]);
+
+                  router.push("/session");
+                } catch (err) {
+                  // console.error("[debug]", err);
+                }
+              }}
+            >
+              확인
+            </ConfirmButton>
           </Modal>
         </ModalWrapper>
       )}

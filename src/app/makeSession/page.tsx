@@ -1,5 +1,7 @@
 "use client";
 
+import react from "react";
+
 import Frame from "@components/Frame";
 import { Background } from "@styles/styles";
 
@@ -62,6 +64,9 @@ const Input = styled.input`
 `;
 
 const MakeSession = () => {
+  const [sessionName, setSessionName] = react.useState("");
+  const [picrewLink, setPicrewLink] = react.useState("");
+
   return (
     <Background>
       <Frame>
@@ -74,16 +79,26 @@ const MakeSession = () => {
           <InputItems>
             <InputItem>
               <InputTitle>세션 이름</InputTitle>
-              <Input />
+              <Input
+                value={sessionName}
+                onChange={(event: react.ChangeEvent<HTMLInputElement>) => {
+                  setSessionName(event.target.value);
+                }}
+              />
             </InputItem>
 
             <InputItem>
               <InputTitle>픽크루 링크</InputTitle>
-              <Input />
+              <Input
+                value={picrewLink}
+                onChange={(event: react.ChangeEvent<HTMLInputElement>) => {
+                  setPicrewLink(event.target.value);
+                }}
+              />
             </InputItem>
           </InputItems>
 
-          <MakeSessionModal />
+          <MakeSessionModal sessionName={sessionName} picrewLink={picrewLink} />
         </Body>
       </Frame>
     </Background>
