@@ -1,5 +1,7 @@
+import react from "react";
 import Link from "next/link";
 
+import { Database } from "@libs/types";
 import {
   Container,
   Title,
@@ -13,7 +15,33 @@ import {
   Button,
 } from "@styles/styles";
 
-const NotSignedIn = () => {
+const SignIn = ({
+  supabase,
+  setIsSignin,
+}: {
+  supabase: Database;
+  setIsSignin: Function;
+}) => {
+  const [email, setEmail] = react.useState("");
+  const [password, setPassword] = react.useState("");
+
+  const signIn = async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw new Error("로그인 실패");
+
+      setIsSignin(true);
+
+      console.log("[debug]", data);
+    } catch (e) {
+      alert("로그인에 실패했습니다.\n잠시 뒤에 다시 시도해주세요");
+    }
+  };
+
   return (
     <Container>
       <Title>만창 Picrew</Title>
@@ -22,16 +50,34 @@ const NotSignedIn = () => {
         <InputItems>
           <InputItem>
             <InputTitle>이메일</InputTitle>
-            <Input />
+            <Input
+              value={email}
+              onChange={(event: react.ChangeEvent<HTMLInputElement>) => {
+                setEmail(event.target.value);
+              }}
+            />
           </InputItem>
 
           <InputItem>
             <InputTitle>비밀번호</InputTitle>
-            <Input />
+            <Input
+              value={password}
+              type="password"
+              onChange={(event: react.ChangeEvent<HTMLInputElement>) => {
+                setPassword(event.target.value);
+              }}
+            />
           </InputItem>
         </InputItems>
 
-        <Button isPrimary>로그인하기</Button>
+        <Button
+          isPrimary
+          onClick={() => {
+            signIn();
+          }}
+        >
+          로그인하기
+        </Button>
       </PrimaryContainer>
 
       <SecondaryContainer>
@@ -44,4 +90,4 @@ const NotSignedIn = () => {
   );
 };
 
-export default NotSignedIn;
+export default SignIn;

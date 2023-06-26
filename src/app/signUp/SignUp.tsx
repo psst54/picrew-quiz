@@ -86,6 +86,7 @@ const SignUp = ({ supabase }: { supabase: Database }) => {
               }}
             />
           </InputItem>
+
           <InputItem>
             <InputTitle>비밀번호</InputTitle>
             <Input
@@ -96,6 +97,7 @@ const SignUp = ({ supabase }: { supabase: Database }) => {
               }}
             />
           </InputItem>
+
           <InputItem>
             <InputTitle>비밀번호 확인</InputTitle>
             <Input

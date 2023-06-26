@@ -1,6 +1,5 @@
 "use client";
 
-import react from "react";
 import { createClient } from "@supabase/supabase-js";
 import styled from "styled-components";
 
