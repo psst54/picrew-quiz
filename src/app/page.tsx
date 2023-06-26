@@ -4,6 +4,8 @@ import react from "react";
 import { createClient } from "@supabase/supabase-js";
 import styled from "styled-components";
 
+import { useAppSelector } from "@/redux/hooks";
+
 import { Database } from "@libs/types";
 import { colors } from "@styles/colors";
 
@@ -19,20 +21,16 @@ const Container = styled.div`
 
   background: ${colors.background};
 `;
+const Home = () => {
+  const isSignIn = useAppSelector((state) => state.userReducer.isSignIn);
 
-export default function Home() {
-  const [isSignin, setIsSignin] = react.useState(false);
   react.useEffect(() => {
-    console.log("[debug] isSignin :", isSignin);
-  }, [isSignin]);
+    console.log("[debug] isSignIn :", isSignIn);
+  }, [isSignIn]);
 
   return (
-    <Container>
-      {isSignin ? (
-        <></>
-      ) : (
-        <SignIn supabase={supabase} setIsSignin={setIsSignin} />
-      )}
-    </Container>
+    <Container>{isSignIn ? <></> : <SignIn supabase={supabase} />}</Container>
   );
-}
+};
+
+export default Home;

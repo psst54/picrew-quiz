@@ -1,5 +1,7 @@
 import react from "react";
 import Link from "next/link";
+import { useAppDispatch } from "@/redux/hooks";
+import { setSignIn } from "@features/userSlice";
 
 import { Database } from "@libs/types";
 import {
@@ -15,13 +17,9 @@ import {
   Button,
 } from "@styles/styles";
 
-const SignIn = ({
-  supabase,
-  setIsSignin,
-}: {
-  supabase: Database;
-  setIsSignin: Function;
-}) => {
+const SignIn = ({ supabase }: { supabase: Database }) => {
+  const dispatch = useAppDispatch();
+
   const [email, setEmail] = react.useState("");
   const [password, setPassword] = react.useState("");
 
@@ -34,7 +32,7 @@ const SignIn = ({
 
       if (error) throw new Error("로그인 실패");
 
-      setIsSignin(true);
+      dispatch(setSignIn(data.user.id));
 
       console.log("[debug]", data);
     } catch (e) {
