@@ -1,3 +1,5 @@
+import react from "react";
+
 import {
   Conatiner,
   NavBar,
@@ -12,17 +14,36 @@ import {
   SessionCardTitle,
   SessionCardCnt,
   NavigateIconWrapper,
-  BottomSection,
+  MiddleSection,
   GameCardContainer,
   GameCard,
   GameCardTitle,
   FriendContainer,
+  TmpP,
+  BottomSection,
 } from "@styles/Main";
 import { colors } from "@/styles/colors";
 
 import NavigateIcon from "./NavigateIcon";
 
 const Main = () => {
+  function getCurrentDimension() {
+    return window?.innerWidth;
+  }
+
+  const [screenWidth, setScreenWidth] = react.useState(getCurrentDimension());
+
+  react.useEffect(() => {
+    const updateDimension = () => {
+      setScreenWidth(getCurrentDimension());
+    };
+    window.addEventListener("resize", updateDimension);
+
+    return () => {
+      window.removeEventListener("resize", updateDimension);
+    };
+  }, [screenWidth]);
+
   return (
     <Conatiner>
       <NavBar>
@@ -45,7 +66,10 @@ const Main = () => {
             </SessionCardInfo>
 
             <NavigateIconWrapper>
-              <NavigateIcon size={"3rem"} color={"#fff"} />
+              <NavigateIcon
+                size={screenWidth > 600 ? "3rem" : "1rem"}
+                color={"#fff"}
+              />
             </NavigateIconWrapper>
           </SessionCard>
 
@@ -56,7 +80,10 @@ const Main = () => {
             </SessionCardInfo>
 
             <NavigateIconWrapper>
-              <NavigateIcon size={"3rem"} color={"#fff"} />
+              <NavigateIcon
+                size={screenWidth > 600 ? "3rem" : "1rem"}
+                color={"#fff"}
+              />
             </NavigateIconWrapper>
           </SessionCard>
 
@@ -67,12 +94,15 @@ const Main = () => {
             </SessionCardInfo>
 
             <NavigateIconWrapper>
-              <NavigateIcon size={"3rem"} color={"#fff"} />
+              <NavigateIcon
+                size={screenWidth > 600 ? "3rem" : "1rem"}
+                color={"#fff"}
+              />
             </NavigateIconWrapper>
           </SessionCard>
         </SessionCardContainer>
 
-        <BottomSection>
+        <MiddleSection>
           <GameCardContainer>
             <GameCard>
               <GameCardTitle>세션 만들기</GameCardTitle>
@@ -84,8 +114,14 @@ const Main = () => {
             </GameCard>
           </GameCardContainer>
 
-          <FriendContainer>준비중!</FriendContainer>
-        </BottomSection>
+          <FriendContainer>
+            <TmpP>
+              준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!준비중!
+            </TmpP>
+          </FriendContainer>
+        </MiddleSection>
+
+        <BottomSection>준비중!</BottomSection>
       </Body>
     </Conatiner>
   );

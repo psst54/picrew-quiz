@@ -11,7 +11,7 @@ const colors = {
   valid: "#60bb38",
   invalid: "#ec3440",
 
-  text: { light: "#fff", dark: "#000" },
+  text: { light: "#fff", dark: "#000", littleLight: "#f5d9df" },
 };
 
 export { colors };

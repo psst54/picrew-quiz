@@ -12,6 +12,7 @@ const Conatiner = styled.div`
 `;
 
 const NavBar = styled.div`
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
 
@@ -79,6 +80,7 @@ const SessionCardContainer = styled.div`
 `;
 const SessionCard = styled.button`
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 0.4rem;
 
@@ -108,14 +110,16 @@ const SessionCardInfo = styled.div`
   height: 100%;
 `;
 const SessionCardTitle = styled.h2`
-  color: ${colors.text.light};
+  color: ${colors.text.littleLight};
   font-size: 1.2rem;
-  font-weight: 400;
+  font-weight: 200;
   text-align: start;
+  word-break: keep-all;
 `;
 const SessionCardCnt = styled.p`
   color: ${colors.text.light};
-  font-size: 1.6rem;
+  font-size: 1.8rem;
+  font-weight: 500;
 `;
 const NavigateIconWrapper = styled.div`
   display: flex;
@@ -128,7 +132,7 @@ const NavigateIconWrapper = styled.div`
   border-radius: 100%;
 `;
 
-const BottomSection = styled.div`
+const MiddleSection = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
@@ -151,7 +155,8 @@ const GameCard = styled.div`
 
   background: ${colors.primary.dark};
 
-  padding: 1.4rem 1rem;
+  height: 5rem;
+  padding: 0 1rem;
   border: none;
   border-radius: 2rem;
   outline: none;
@@ -170,6 +175,21 @@ const GameCardTitle = styled.h2`
 
 const FriendContainer = styled.div`
   display: flex;
+  gap: 1rem;
+
+  background: ${colors.primary.veryveryDark};
+
+  height: 11rem;
+  padding: 1rem 1rem;
+
+  border-radius: 2rem;
+`;
+const TmpP = styled.p`
+  overflow-y: scroll;
+`;
+
+const BottomSection = styled.div`
+  display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
@@ -177,6 +197,8 @@ const FriendContainer = styled.div`
   background: ${colors.primary.veryveryDark};
 
   padding: 1.4rem 1rem;
+  height: 12rem;
+
   border: none;
   border-radius: 2rem;
   outline: none;
@@ -196,9 +218,11 @@ export {
   SessionCardTitle,
   SessionCardCnt,
   NavigateIconWrapper,
-  BottomSection,
+  MiddleSection,
   GameCardContainer,
   GameCard,
   GameCardTitle,
   FriendContainer,
+  TmpP,
+  BottomSection,
 };

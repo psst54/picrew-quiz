@@ -1,4 +1,4 @@
-const NavigateIcon = ({ size, color }: { size: number; color: string }) => {
+const NavigateIcon = ({ size, color }: { size: string; color: string }) => {
   return (
     <svg
       width={size}

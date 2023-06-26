@@ -20,9 +20,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
-  padding: 1rem;
+  padding: 2rem 1rem;
 
   background: ${colors.background};
 `;
