@@ -11,7 +11,17 @@ import {
   Button,
 } from "@styles/styles";
 
-const SignUp = () => {
+const SignUp = ({ supabase }) => {
+  const signUp = async () => {
+    const { data, error } = await supabase.auth.signUp({
+      email: "example@email.com",
+      password: "example-password",
+    });
+
+    console.log(data);
+    console.log(error);
+  };
+
   return (
     <Container>
       <Title>만창 Picrew</Title>
@@ -34,7 +44,14 @@ const SignUp = () => {
           </InputItem>
         </InputItems>
 
-        <Button isPrimary>회원가입하기</Button>
+        <Button
+          isPrimary
+          onClick={() => {
+            signUp();
+          }}
+        >
+          회원가입하기
+        </Button>
       </PrimaryContainer>
 
       <SecondaryContainer>

@@ -1,11 +1,17 @@
 "use client";
 
 import react from "react";
+import { createClient } from "@supabase/supabase-js";
 import styled from "styled-components";
+import { Database } from "@libs/types";
 
 import { colors } from "@styles/colors";
 
 import SignUp from "./SignUp";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
+const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
 const Container = styled.div`
   width: 100vw;
@@ -17,7 +23,7 @@ const Container = styled.div`
 const SignUpPage = () => {
   return (
     <Container>
-      <SignUp />
+      <SignUp supabase={supabase} />
     </Container>
   );
 };
