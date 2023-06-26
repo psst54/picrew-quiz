@@ -1,4 +1,5 @@
 import react from "react";
+import Link from "next/link";
 
 import { Database } from "@libs/types";
 import { colors } from "@styles/colors";
@@ -27,6 +28,11 @@ const SignUp = ({ supabase }: { supabase: Database }) => {
   const [password, setPassword] = react.useState("");
   const [confirmPassword, setConfirmPassword] = react.useState("");
 
+  const checkEmail = () => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+
   const checkPasswordLength = () => {
     return password !== "" && password.length > 6;
   };
@@ -38,12 +44,17 @@ const SignUp = ({ supabase }: { supabase: Database }) => {
   };
 
   const signUp = async () => {
-    if (checkPasswordLength()) {
+    if (!checkEmail()) {
+      alert("이메일 주소가 올바른지 확인해주세요");
+      return;
+    }
+
+    if (!checkPasswordLength()) {
       alert("비밀번호는 6자리 이상으로 입력해주세요");
       return;
     }
 
-    if (checkConfirmPassword()) {
+    if (!checkConfirmPassword()) {
       alert("비밀번호가 일치하지 않습니다");
       return;
     }
@@ -54,12 +65,9 @@ const SignUp = ({ supabase }: { supabase: Database }) => {
         password,
       });
 
-      console.log(data);
-      console.log(error);
-
       if (error) throw new Error("회원가입 실패");
     } catch (e) {
-      console.error("회원가입 실패");
+      alert("회원가입에 실패했습니다.\n잠시 뒤에 다시 시도해주세요");
     }
   };
 
@@ -82,6 +90,7 @@ const SignUp = ({ supabase }: { supabase: Database }) => {
             <InputTitle>비밀번호</InputTitle>
             <Input
               value={password}
+              type="password"
               onChange={(event: react.ChangeEvent<HTMLInputElement>) => {
                 setPassword(event.target.value);
               }}
@@ -91,6 +100,7 @@ const SignUp = ({ supabase }: { supabase: Database }) => {
             <InputTitle>비밀번호 확인</InputTitle>
             <Input
               value={confirmPassword}
+              type="password"
               onChange={(event: react.ChangeEvent<HTMLInputElement>) => {
                 setConfirmPassword(event.target.value);
               }}
@@ -129,7 +139,9 @@ const SignUp = ({ supabase }: { supabase: Database }) => {
 
       <SecondaryContainer>
         <SignUpDesc>이미 계정이 있다면</SignUpDesc>
-        <Button>로그인하기</Button>
+        <Link href="/" style={{ width: "100%" }}>
+          <Button>로그인하기</Button>
+        </Link>
       </SecondaryContainer>
     </Container>
   );

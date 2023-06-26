@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import {
   Container,
   Title,
@@ -34,7 +36,9 @@ const NotSignedIn = () => {
 
       <SecondaryContainer>
         <SignUpDesc>아직 계정이 없다면</SignUpDesc>
-        <Button>이메일로 가입하기</Button>
+        <Link href="/signUp" style={{ width: "100%" }}>
+          <Button>이메일로 가입하기</Button>
+        </Link>
       </SecondaryContainer>
     </Container>
   );
