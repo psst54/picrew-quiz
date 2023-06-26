@@ -1,17 +1,20 @@
 import styled from "styled-components";
 import { colors } from "@styles/colors";
 
-const PrimaryContainer = styled.div`
+const CheckPasswordContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-
-  width: 90vw;
-  max-width: 26rem;
-  padding: 2.4rem 2rem;
-
-  border: 1px solid ${colors.primary};
-  border-radius: 1rem;
+  gap: 0.2rem;
 `;
 
-export { PrimaryContainer };
+const CheckPasswordItem = styled.div`
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+
+  margin-left: 1rem;
+
+  color: ${({ isValid }) => (isValid ? colors.valid : colors.invalid)};
+`;
+
+export { CheckPasswordContainer, CheckPasswordItem };

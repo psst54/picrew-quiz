@@ -3,8 +3,8 @@
 import react from "react";
 import { createClient } from "@supabase/supabase-js";
 import styled from "styled-components";
-import { Database } from "@libs/types";
 
+import { Database } from "@libs/types";
 import { colors } from "@styles/colors";
 
 import SignUp from "./SignUp";
