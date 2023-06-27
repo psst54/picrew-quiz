@@ -152,18 +152,23 @@ const MakeSessionModal = ({
                   sessionName + new Date().getTime()
                 ).toString();
 
-                try {
-                  await supabase.from("gameSessions").insert([
-                    {
-                      sessioin_id: sessionId,
-                      session_name: sessionName,
-                      picrew_link: picrewLink,
-                      made_by: userId,
-                      password,
-                    },
-                  ]);
+                console.log(sessionId);
 
-                  router.push("/session");
+                try {
+                  // await supabase.from("gameSessions").insert([
+                  //   {
+                  //     sessioin_id: sessionId,
+                  //     session_name: sessionName,
+                  //     picrew_link: picrewLink,
+                  //     made_by: userId,
+                  //     password,
+                  //   },
+                  // ]);
+
+                  // router.push(`/session/${sessionId}`);
+                  router.push(
+                    `/session/5384240e74e09b560067feb222ecdbd6920b1776451783810b2871257452d929`
+                  );
                 } catch (err) {
                   console.error("[debug]", err);
                 }
