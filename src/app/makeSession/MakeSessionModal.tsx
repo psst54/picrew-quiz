@@ -167,8 +167,6 @@ const MakeSessionModal = ({
               onClick={async () => {
                 const sessionId = generateHash({ string: sessionName });
 
-                console.log(sessionId);
-
                 try {
                   // await supabase.from("gameSessions").insert([
                   //   {
@@ -181,9 +179,8 @@ const MakeSessionModal = ({
                   // ]);
 
                   // router.push(`/session/${sessionId}`);
-                  router.push(
-                    `/session/5384240e74e09b560067feb222ecdbd6920b1776451783810b2871257452d929`
-                  );
+
+                  router.push(`/session/LKFLHG`);
                 } catch (err) {
                   console.error("[debug]", err);
                 }
