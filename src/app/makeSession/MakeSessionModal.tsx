@@ -100,6 +100,23 @@ const MakeSessionModal = ({
     return false;
   };
 
+  const generateHash = ({ string }) => {
+    const date = new Date().getTime().toString().slice(-3);
+    const name = CryptoJS.SHA256(string + date)
+      .toString()
+      .slice(0, 3);
+    const source = name + date;
+
+    let encodedHash = "";
+    let alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    for (let i = 0; i < 6; i++) {
+      encodedHash += alphabet[source.charCodeAt(i) % alphabet.length];
+    }
+
+    return encodedHash;
+  };
+
   return (
     <Container>
       <ConfirmButton
@@ -148,9 +165,7 @@ const MakeSessionModal = ({
             <ConfirmButton
               isPrimary
               onClick={async () => {
-                const sessionId = CryptoJS.SHA256(
-                  sessionName + new Date().getTime()
-                ).toString();
+                const sessionId = generateHash({ string: sessionName });
 
                 try {
                   await supabase.from("gameSessions").insert([
