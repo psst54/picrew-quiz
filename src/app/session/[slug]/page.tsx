@@ -1,6 +1,7 @@
 "use client";
 
 import react from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import { useAppSelector } from "@/redux/hooks";
 
@@ -18,7 +19,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
 const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
-const WarningContainer = styled.div`
+const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -31,11 +32,11 @@ const WarningContainer = styled.div`
   border: 1px solid red;
   border-radius: 1rem;
 `;
-const WarningItem = styled.div`
+const InfoItem = styled.div`
   display: flex;
   align-items: center;
 `;
-const WarningText = styled.p`
+const InfoText = styled.p`
   color: ${colors.text.light};
   word-break: keep-all;
 `;
@@ -64,7 +65,9 @@ const ProgressItem = styled.button`
 
   background: ${({ isCurrent }) =>
     isCurrent ? colors.primary.standard : colors.primary.veryDark};
-  border: none;
+  border: 2px solid
+    ${({ isCurrent }) =>
+      isCurrent ? colors.primary.standard : colors.primary.veryDark};
   border-radius: 1rem;
   outline: none;
 
@@ -75,6 +78,11 @@ const ProgressItem = styled.button`
   text-align: center;
 
   cursor: pointer;
+
+  &:hover {
+    border: 2px solid
+      ${({ isCurrent }) => (isCurrent ? "#fff" : colors.primary.veryDark)};
+  }
 `;
 
 const Items = styled.div`
@@ -175,13 +183,14 @@ const StartGameButton = styled.button`
 `;
 
 const SessionPage = ({ params }: { params: { slug: string } }) => {
+  const router = useRouter();
   const [data, setData] = react.useState(null);
+  const [isMaster, setIsMaster] = react.useState(false);
   const userId = useAppSelector((state) => state.userReducer.id);
-  const isMaster = userId === data?.made_by;
 
   const getData = async ({ slug }: { slug: string }) => {
     try {
-      const { error, data } = await supabase
+      const { error, data: rawData } = await supabase
         .from("gameSessions")
         .select(
           "session_id, made_by, picrew_link, session_name, password, people, progress"
@@ -190,19 +199,25 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
 
       if (error) throw new Error();
 
-      setData(data[0]);
+      const data = rawData[0];
+      setData(data);
     } catch (err) {
       console.error("[debug]", err);
     }
   };
 
+  const checkInfoExists = react.useCallback(() => {
+    return data?.progress === "ready";
+  }, [data]);
+
   react.useEffect(() => {
     getData({ slug: params.slug });
   }, []);
 
-  // react.useEffect(() => {
-  //   console.log("data", data);
-  // }, [data]);
+  react.useEffect(() => {
+    setIsMaster(data?.made_by === userId);
+    console.log(data);
+  }, [data, userId]);
 
   return (
     <Background>
@@ -212,27 +227,36 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
             <Emoji src={"/left_speech_bubble_twitter.png"} />
             {data?.session_name}
           </Title>
-          {isMaster && (
-            <WarningContainer>
-              <WarningItem>
-                <Emoji src={"/exclamation_mark_twitter.png"} />
-                <WarningText>
-                  아래에서 참가자를 확인하고 시작하기 버튼을 눌러 게임을
-                  시작해주세요
-                </WarningText>
-              </WarningItem>
-              <WarningItem>
-                <Emoji src={"/exclamation_mark_twitter.png"} />
-                <WarningText>게임이 시작될 때까지 기다려주세요</WarningText>
-              </WarningItem>
-            </WarningContainer>
+
+          {checkInfoExists() && (
+            <InfoContainer>
+              {isMaster && data?.progress === "ready" && (
+                <InfoItem>
+                  <Emoji src={"/exclamation_mark_twitter.png"} />
+                  <InfoText>
+                    아래에서 참가자를 확인하고 시작하기 버튼을 눌러 게임을
+                    시작해주세요
+                  </InfoText>
+                </InfoItem>
+              )}
+
+              {!isMaster && data?.progress === "ready" && (
+                <InfoItem>
+                  <Emoji src={"/exclamation_mark_twitter.png"} />
+                  <InfoText>게임이 시작될 때까지 기다려주세요</InfoText>
+                </InfoItem>
+              )}
+            </InfoContainer>
           )}
 
           <ProgressContainer>
             <ProgressItems>
               <ProgressItem
-                isCurrent={data?.progress === "make"}
-                disabled={data?.progress !== "make"}
+                isCurrent={data?.progress === "upload"}
+                disabled={data?.progress !== "upload"}
+                onClick={() => {
+                  router.push(`/session/upload/${params?.slug}`);
+                }}
               >
                 픽크루 만들기
               </ProgressItem>
@@ -260,7 +284,20 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
                 <CopiableItemTextContainer>
                   <CopiableItemText>{data?.password}</CopiableItemText>
                 </CopiableItemTextContainer>
-                <CopiableItemButton>복사</CopiableItemButton>
+                <CopiableItemButton
+                  onClick={() => {
+                    navigator.clipboard
+                      .writeText(data?.password)
+                      .then(() => {
+                        console.log("Text copied to clipboard!");
+                      })
+                      .catch((error) => {
+                        console.error("Failed to copy text: ", error);
+                      });
+                  }}
+                >
+                  복사
+                </CopiableItemButton>
               </CopiableItemField>
             </Item>
 
@@ -276,7 +313,20 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
                     <CopiableItemText>{data?.picrew_link}</CopiableItemText>
                   </CopiableItemTextContainer>
                 </CopiableItemTextWraper>
-                <CopiableItemButton>복사</CopiableItemButton>
+                <CopiableItemButton
+                  onClick={() => {
+                    navigator.clipboard
+                      .writeText(data?.picrew_link)
+                      .then(() => {
+                        console.log("Text copied to clipboard!");
+                      })
+                      .catch((error) => {
+                        console.error("Failed to copy text: ", error);
+                      });
+                  }}
+                >
+                  복사
+                </CopiableItemButton>
               </CopiableItemField>
             </Item>
 
@@ -289,7 +339,9 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
                 ))}
               </PeopleContainer>
 
-              <StartGameButton>시작하기</StartGameButton>
+              {isMaster && data?.progress === "ready" && (
+                <StartGameButton>시작하기</StartGameButton>
+              )}
             </Item>
           </Items>
         </Body>

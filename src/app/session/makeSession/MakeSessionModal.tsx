@@ -175,6 +175,7 @@ const MakeSessionModal = ({
                   //     picrew_link: picrewLink,
                   //     made_by: userId,
                   //     password,
+                  //     people: [userId],
                   //   },
                   // ]);
 
