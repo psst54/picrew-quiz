@@ -15,7 +15,7 @@ const Container = styled.div`
 const Message = styled.p`
   width: fit-content;
 
-  background: white;
+  background: #ffe;
   padding: 0.6rem 1rem;
   border-radius: 1rem;
 

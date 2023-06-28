@@ -188,7 +188,6 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
   const [data, setData] = react.useState(null);
   const [isMaster, setIsMaster] = react.useState(false);
   const [toasts, setToasts] = react.useState([]);
-  const [isToastMessageOpen, setIsToastMessageOpen] = react.useState(false);
   const userId = useAppSelector((state) => state.userReducer.id);
 
   const getData = async ({ slug }: { slug: string }) => {
@@ -212,6 +211,19 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
   const checkInfoExists = react.useCallback(() => {
     return data?.progress === "ready";
   }, [data]);
+
+  const addToastMessage = ({ message }: { message: string }) => {
+    const id = Date.now();
+    const newToast = {
+      id,
+      message,
+    };
+
+    setToasts((oldToasts) => [...oldToasts, newToast]);
+    setTimeout(() => {
+      setToasts((oldToasts) => oldToasts.filter((toast) => toast.id !== id));
+    }, 5000);
+  };
 
   react.useEffect(() => {
     getData({ slug: params.slug });
@@ -292,18 +304,9 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
                     navigator.clipboard
                       .writeText(data?.picrew_link)
                       .then(() => {
-                        const id = Date.now();
-                        const newToast = {
-                          id,
+                        addToastMessage({
                           message: "비밀번호가 복사되었습니다",
-                        };
-
-                        setToasts((oldToasts) => [...oldToasts, newToast]);
-                        setTimeout(() => {
-                          setToasts((oldToasts) =>
-                            oldToasts.filter((toast) => toast.id !== id)
-                          );
-                        }, 5000);
+                        });
                       })
                       .catch((error) => {});
                   }}
@@ -330,18 +333,7 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
                     navigator.clipboard
                       .writeText(data?.picrew_link)
                       .then(() => {
-                        const id = Date.now();
-                        const newToast = {
-                          id,
-                          message: "링크가 복사되었습니다",
-                        };
-
-                        setToasts((oldToasts) => [...oldToasts, newToast]);
-                        setTimeout(() => {
-                          setToasts((oldToasts) =>
-                            oldToasts.filter((toast) => toast.id !== id)
-                          );
-                        }, 5000);
+                        addToastMessage({ message: "링크가 복사되었습니다" });
                       })
                       .catch((error) => {});
                   }}
@@ -361,7 +353,26 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
               </PeopleContainer>
 
               {isMaster && data?.progress === "ready" && (
-                <StartGameButton>시작하기</StartGameButton>
+                <StartGameButton
+                  onClick={async () => {
+                    try {
+                      const { error } = await supabase
+                        .from("gameSessions")
+                        .update({ progress: "upload" })
+                        .eq("session_id", params?.slug);
+
+                      if (error) throw new Error();
+
+                      setData({ ...data, progress: "upload" });
+
+                      addToastMessage({
+                        message: "시작합니다!",
+                      });
+                    } catch (e) {}
+                  }}
+                >
+                  시작하기
+                </StartGameButton>
               )}
             </Item>
           </Items>
