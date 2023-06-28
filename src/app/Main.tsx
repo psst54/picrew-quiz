@@ -20,7 +20,7 @@ import {
 } from "@styles/Main";
 import { colors } from "@/styles/colors";
 
-import NavigateIcon from "./NavigateIcon";
+import NavigateIcon from "@assets/NavigateIcon";
 
 const Main = () => {
   function getCurrentDimension() {
@@ -46,7 +46,7 @@ const Main = () => {
         <SessionCardContainer>
           <SessionCard backgroundColor={colors.primary.veryveryDark}>
             <SessionCardInfo>
-              <SessionCardTitle>픽크루 만들기</SessionCardTitle>
+              <SessionCardTitle>이미지 올리기</SessionCardTitle>
               <SessionCardCnt>1개</SessionCardCnt>
             </SessionCardInfo>
 

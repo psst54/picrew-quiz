@@ -25,8 +25,8 @@ const Message = styled.p`
 const ToastMessage = ({ toasts }: { toasts: Object[] }) => {
   return (
     <Container>
-      {toasts.map((toast) => (
-        <Message>✨ {toast?.message}</Message>
+      {toasts.map((toast, toastIdx) => (
+        <Message key={toastIdx}>✨ {toast?.message}</Message>
       ))}
     </Container>
   );
