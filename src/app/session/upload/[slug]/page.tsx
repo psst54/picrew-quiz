@@ -1,6 +1,7 @@
 "use client";
 
 import react from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
 import { useAppSelector } from "@/redux/hooks";
@@ -14,9 +15,38 @@ import { Background } from "@styles/styles";
 import { Body, Title, Emoji } from "@styles/session/styles";
 import ToastMessage from "@components/ToastMessage";
 
+import NavigateIcon from "@assets/NavigateIcon";
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
 const supabase = createClient<Database>(supabaseUrl, supabaseKey);
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+
+const Navigation = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  background: ${colors.primary.veryDark};
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 0.4rem;
+  outline: none;
+
+  color: ${colors.text.littleLight};
+  font-size: 1.2rem;
+  text-align: right;
+
+  cursor: pointer;
+`;
+
+//------------------------------------
 
 const UploadContainer = styled.div`
   display: flex;
@@ -170,10 +200,22 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
     <Background>
       <Frame>
         <Body>
-          <Title>
-            <Emoji src={"/left_speech_bubble_twitter.png"} />
-            {sessionData?.session_name}
-          </Title>
+          <Header>
+            <Title>
+              <Emoji src={"/left_speech_bubble_twitter.png"} />
+              {sessionData?.session_name}
+            </Title>
+
+            <Link
+              href={`/session/${params?.slug}`}
+              style={{ textDecoration: "none" }}
+            >
+              <Navigation>
+                세션 메인으로 이동하기
+                <NavigateIcon size={"2rem"} color={"white"} />
+              </Navigation>
+            </Link>
+          </Header>
 
           <UploadContainer>
             <UploadDesc>드래그 앤 드롭으로 이미지 업로드하기</UploadDesc>

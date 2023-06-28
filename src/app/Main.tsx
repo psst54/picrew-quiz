@@ -20,7 +20,7 @@ import {
 } from "@styles/Main";
 import { colors } from "@/styles/colors";
 
-import NavigateIcon from "./NavigateIcon";
+import NavigateIcon from "@assets/NavigateIcon";
 
 const Main = () => {
   function getCurrentDimension() {
