@@ -128,7 +128,7 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
                   router.push(`/session/upload/${params?.slug}`);
                 }}
               >
-                픽크루 만들기
+                이미지 올리기
               </ProgressItem>
               <ArrowRight size={"2rem"} color={colors.primary.standard} />
               <ProgressItem
