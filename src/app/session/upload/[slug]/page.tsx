@@ -58,6 +58,8 @@ const UploadContainer = styled.div`
   width: 100%;
   max-width: 600px;
   padding: 2rem 0.4rem;
+  background: ${({ isDragging }) =>
+    isDragging ? colors.primary.veryveryDark : "transparent"};
 
   border: 1px solid ${colors.primary.standard};
   border-radius: 2rem;
@@ -96,7 +98,7 @@ const PreviewContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: 1rem;
 
   width: 100%;
   max-width: 600px;
@@ -133,6 +135,82 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
   const [fileObj, setFileObj] = react.useState(null);
   const [fileSrc, setFileSrc] = react.useState(null);
   const [toasts, setToasts] = react.useState([]);
+  const dragRef = react.useRef<HTMLLabelElement | null>(null);
+  const [isDragging, setIsDragging] = react.useState(false);
+
+  const onChangeFiles = react.useCallback(
+    (e: react.ChangeEvent<HTMLInputElement> | any): void => {
+      let selectFiles: File[] = [];
+
+      if (e.type === "drop") {
+        selectFiles = e.dataTransfer.files;
+      } else {
+        selectFiles = e.target.files;
+      }
+
+      if (selectFiles.length === 1) {
+        setFileObj(selectFiles[0]);
+        resolveFile({ fileObj: selectFiles[0] });
+      }
+    },
+    [fileObj]
+  );
+
+  const handleDragIn = react.useCallback((e: DragEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
+
+  const handleDragOut = react.useCallback((e: DragEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setIsDragging(false);
+  }, []);
+
+  const handleDragOver = react.useCallback((e: DragEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.dataTransfer!.files) {
+      setIsDragging(true);
+    }
+  }, []);
+
+  const handleDrop = react.useCallback(
+    (e: DragEvent): void => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      onChangeFiles(e);
+      setIsDragging(false);
+    },
+    [onChangeFiles]
+  );
+
+  const initDragEvents = react.useCallback((): void => {
+    if (dragRef.current !== null) {
+      dragRef.current.addEventListener("dragenter", handleDragIn);
+      dragRef.current.addEventListener("dragleave", handleDragOut);
+      dragRef.current.addEventListener("dragover", handleDragOver);
+      dragRef.current.addEventListener("drop", handleDrop);
+    }
+  }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
+
+  const resetDragEvents = react.useCallback((): void => {
+    if (dragRef.current !== null) {
+      dragRef.current.removeEventListener("dragenter", handleDragIn);
+      dragRef.current.removeEventListener("dragleave", handleDragOut);
+      dragRef.current.removeEventListener("dragover", handleDragOver);
+      dragRef.current.removeEventListener("drop", handleDrop);
+    }
+  }, [handleDragIn, handleDragOut, handleDragOver, handleDrop]);
+
+  react.useEffect(() => {
+    initDragEvents();
+
+    return () => resetDragEvents();
+  }, [initDragEvents, resetDragEvents]);
 
   const getSessionData = async ({ slug }: { slug: string }) => {
     try {
@@ -212,12 +290,12 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
             >
               <Navigation>
                 세션 메인으로 이동하기
-                <NavigateIcon size={"2rem"} color={"white"} />
+                <NavigateIcon size={"1.4rem"} color={colors.text.littleLight} />
               </Navigation>
             </Link>
           </Header>
 
-          <UploadContainer>
+          <UploadContainer ref={dragRef} isDragging={isDragging}>
             <UploadDesc>드래그 앤 드롭으로 이미지 업로드하기</UploadDesc>
             <UploadSubDesc>또는</UploadSubDesc>
             <FileInputLabel htmlFor="fileInput">
