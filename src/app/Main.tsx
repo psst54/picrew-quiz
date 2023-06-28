@@ -89,14 +89,20 @@ const Main = () => {
 
         <MiddleSection>
           <GameCardContainer>
-            <Link href="/makeSession" style={{ textDecoration: "none" }}>
+            <Link
+              href="/session/makeSession"
+              style={{ textDecoration: "none" }}
+            >
               <GameCard>
                 <GameCardTitle>세션 만들기</GameCardTitle>
                 <NavigateIcon size={"2rem"} color={"#fff"} />
               </GameCard>
             </Link>
 
-            <Link href="/makeSession" style={{ textDecoration: "none" }}>
+            <Link
+              href="/session/makeSession"
+              style={{ textDecoration: "none" }}
+            >
               <GameCard>
                 <GameCardTitle>세션 들어가기</GameCardTitle>
                 <NavigateIcon size={"2rem"} color={"#fff"} />

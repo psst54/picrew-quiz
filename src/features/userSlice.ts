@@ -3,12 +3,12 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserState {
   id: string;
-  isSignIn: boolean;
+  isSignIn: string;
 }
 
 const initialState: UserState = {
   id: "",
-  isSignIn: false,
+  isSignIn: "false",
 };
 
 export const userSlice = createSlice({
@@ -17,7 +17,7 @@ export const userSlice = createSlice({
   reducers: {
     setSignIn: (state, action: PayloadAction<string>) => {
       state.id = action.payload;
-      state.isSignIn = true;
+      state.isSignIn = "true";
     },
   },
 });

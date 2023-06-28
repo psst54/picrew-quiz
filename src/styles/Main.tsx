@@ -132,7 +132,7 @@ const TmpP = styled.p`
     width: 8px;
   }
   &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
+    border-radius: 3px;
     background: ${colors.primary.standard};
   }
 `;

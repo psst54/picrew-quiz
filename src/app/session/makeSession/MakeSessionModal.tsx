@@ -8,8 +8,8 @@ import CryptoJS from "crypto-js";
 
 import styled from "styled-components";
 import { colors } from "@styles/colors";
-import { Button } from "@styles/styles";
 import { Database } from "@libs/types";
+import { Button } from "@styles/styles";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
@@ -168,17 +168,20 @@ const MakeSessionModal = ({
                 const sessionId = generateHash({ string: sessionName });
 
                 try {
-                  await supabase.from("gameSessions").insert([
-                    {
-                      sessioin_id: sessionId,
-                      session_name: sessionName,
-                      picrew_link: picrewLink,
-                      made_by: userId,
-                      password,
-                    },
-                  ]);
+                  // await supabase.from("gameSessions").insert([
+                  //   {
+                  //     session_id: sessionId,
+                  //     session_name: sessionName,
+                  //     picrew_link: picrewLink,
+                  //     made_by: userId,
+                  //     password,
+                  //     people: [userId],
+                  //   },
+                  // ]);
 
-                  router.push("/session");
+                  // router.push(`/session/${sessionId}`);
+
+                  router.push(`/session/LKFLHG`);
                 } catch (err) {
                   console.error("[debug]", err);
                 }
