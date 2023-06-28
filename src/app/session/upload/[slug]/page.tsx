@@ -12,6 +12,7 @@ import { Database } from "@libs/types";
 import Frame from "@components/Frame";
 import { Background } from "@styles/styles";
 import { Body, Title, Emoji } from "@styles/session/styles";
+import ToastMessage from "@components/ToastMessage";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
@@ -97,14 +98,15 @@ const SubmitButton = styled.button`
 
 const SessionPage = ({ params }: { params: { slug: string } }) => {
   const router = useRouter();
-  const [data, setData] = react.useState(null);
+  const [sessionData, setSessionData] = react.useState(null);
   const userId = useAppSelector((state) => state.userReducer.id);
   const [fileObj, setFileObj] = react.useState(null);
   const [fileSrc, setFileSrc] = react.useState(null);
+  const [toasts, setToasts] = react.useState([]);
 
-  const getData = async ({ slug }: { slug: string }) => {
+  const getSessionData = async ({ slug }: { slug: string }) => {
     try {
-      const { error, data: rawData } = await supabase
+      const { error, data } = await supabase
         .from("gameSessions")
         .select(
           "session_id, made_by, picrew_link, session_name, password, people, progress"
@@ -112,9 +114,27 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
         .eq("session_id", slug);
 
       if (error) throw new Error();
-      if (!rawData || rawData.length === 0) throw new Error();
-      setData(rawData[0]);
-    } catch (err) {}
+      if (!data || data.length === 0) throw new Error();
+      setSessionData(data[0]);
+    } catch (e) {}
+  };
+
+  const getImageData = async ({ slug }: { slug: string }) => {
+    try {
+      const fileName = `user_picrew_images/${userId}_${slug}.png`;
+
+      const { data, error } = await supabase.storage
+        .from("picrew-psst54")
+        .download(fileName);
+
+      if (error) throw new Error();
+
+      console.log(data);
+      const obj = new File([data], "tmp name");
+      console.log(obj);
+      setFileObj(obj);
+      resolveFile({ fileObj: obj });
+    } catch (e) {}
   };
 
   const resolveFile = ({ fileObj }: { fileObj: File }) => {
@@ -128,8 +148,22 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
     });
   };
 
+  const addToastMessage = ({ message }: { message: string }) => {
+    const id = Date.now();
+    const newToast = {
+      id,
+      message,
+    };
+
+    setToasts((oldToasts) => [...oldToasts, newToast]);
+    setTimeout(() => {
+      setToasts((oldToasts) => oldToasts.filter((toast) => toast.id !== id));
+    }, 5000);
+  };
+
   react.useEffect(() => {
-    getData({ slug: params.slug });
+    getSessionData({ slug: params.slug });
+    getImageData({ slug: params.slug });
   }, []);
 
   return (
@@ -138,7 +172,7 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
         <Body>
           <Title>
             <Emoji src={"/left_speech_bubble_twitter.png"} />
-            {data?.session_name}
+            {sessionData?.session_name}
           </Title>
 
           <UploadContainer>
@@ -165,22 +199,35 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
               <SubmitButton
                 onClick={async () => {
                   try {
+                    addToastMessage({
+                      message: "이미지를 업로드하는 중...",
+                    });
+
                     const fileName = `user_picrew_images/${userId}_${params?.slug}.png`;
                     const { data, error } = await supabase.storage
                       .from("picrew-psst54")
                       .upload(fileName, fileObj, {
-                        cacheControl: "3600",
-                        upsert: false,
+                        upsert: true,
                       });
 
                     if (error) throw new Error();
-                  } catch (e) {}
+
+                    addToastMessage({
+                      message: "이미지를 업로드했습니다!",
+                    });
+                  } catch (e) {
+                    addToastMessage({
+                      message: "업로드 오류! 잠시 뒤에 다시 시도해주세요",
+                    });
+                  }
                 }}
               >
                 이 이미지를 제출하기
               </SubmitButton>
             </PreviewContainer>
           )}
+
+          <ToastMessage toasts={toasts} />
         </Body>
       </Frame>
     </Background>

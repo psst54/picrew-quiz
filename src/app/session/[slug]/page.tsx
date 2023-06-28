@@ -11,7 +11,7 @@ import { Database } from "@libs/types";
 import Frame from "@components/Frame";
 import { Background } from "@styles/styles";
 import { Body, Title, Emoji } from "@styles/session/styles";
-import ToastMessage from "./ToastMessage";
+import ToastMessage from "@components/ToastMessage";
 import ArrowRight from "./arrowRight";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -45,7 +45,7 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
   const [toasts, setToasts] = react.useState([]);
   const userId = useAppSelector((state) => state.userReducer.id);
 
-  const getData = async ({ slug }: { slug: string }) => {
+  const getSessionData = async ({ slug }: { slug: string }) => {
     try {
       const { error, data: rawData } = await supabase
         .from("gameSessions")
@@ -81,7 +81,7 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
   };
 
   react.useEffect(() => {
-    getData({ slug: params.slug });
+    getSessionData({ slug: params.slug });
   }, []);
 
   react.useEffect(() => {
