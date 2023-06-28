@@ -7,6 +7,7 @@ import { colors } from "@styles/colors";
 
 import Frame from "@components/Frame";
 import { Background } from "@styles/styles";
+import { Body, Title, Emoji } from "@styles/session/styles";
 import {
   CheckPasswordContainer,
   CheckPasswordItem,
@@ -16,32 +17,6 @@ import MakeSessionModal from "./MakeSessionModal";
 import CheckIcon from "@assets/CheckIcon";
 import XIcon from "@assets//XIcon";
 
-const Body = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-
-  width: 100%;
-  padding: 3rem 4rem;
-
-  @media (max-width: 600px) {
-    padding: 3rem 2rem;
-  }
-`;
-
-const Title = styled.h1`
-  display: flex;
-  align-items: center;
-
-  color: ${colors.text.light};
-  font-size: 1.6rem;
-  font-weight: 800;
-`;
-const Emoji = styled.img`
-  width: 1.6rem;
-  height: 1.6rem;
-  margin-right: 0.4rem;
-`;
 const InputItems = styled.div`
   display: flex;
   flex-direction: column;
@@ -88,7 +63,7 @@ const MakeSession = () => {
       <Frame>
         <Body>
           <Title>
-            <Emoji src={"sparkles_twitter.png"} />
+            <Emoji src={"/sparkles_twitter.png"} />
             새로운 세션 만들기
           </Title>
 

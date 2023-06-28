@@ -170,7 +170,7 @@ const MakeSessionModal = ({
                 try {
                   // await supabase.from("gameSessions").insert([
                   //   {
-                  //     sessioin_id: sessionId,
+                  //     session_id: sessionId,
                   //     session_name: sessionName,
                   //     picrew_link: picrewLink,
                   //     made_by: userId,

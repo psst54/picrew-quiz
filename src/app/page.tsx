@@ -15,7 +15,8 @@ const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 import { Background } from "@styles/styles";
 
 const Home = () => {
-  const isSignIn = useAppSelector((state) => state.userReducer.isSignIn);
+  const isSignIn =
+    useAppSelector((state) => state.userReducer.isSignIn) === "true";
 
   return (
     <Background>
