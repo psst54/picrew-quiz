@@ -14,6 +14,13 @@ const Body = styled.div`
   }
 `;
 
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+
 const Title = styled.h1`
   display: flex;
   align-items: center;
@@ -29,4 +36,22 @@ const Emoji = styled.img`
   margin-right: 0.4rem;
 `;
 
-export { Body, Title, Emoji };
+const Navigation = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  background: ${colors.primary.veryDark};
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 0.4rem;
+  outline: none;
+
+  color: ${colors.text.littleLight};
+  font-size: 1.2rem;
+  text-align: right;
+
+  cursor: pointer;
+`;
+
+export { Body, Header, Title, Emoji, Navigation };
