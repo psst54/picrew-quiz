@@ -153,7 +153,6 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
               accept="image/*"
               onChange={(event: react.ChangeEvent<HTMLInputElement>) => {
                 const file = event.target.files[0];
-                console.log(file);
                 setFileObj(file);
                 resolveFile({ fileObj: file });
               }}
@@ -163,7 +162,23 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
           {fileSrc && (
             <PreviewContainer>
               <PreviewImage src={fileSrc} />
-              <SubmitButton>이 이미지를 제출하기</SubmitButton>
+              <SubmitButton
+                onClick={async () => {
+                  try {
+                    const fileName = `user_picrew_images/${userId}_${params?.slug}.png`;
+                    const { data, error } = await supabase.storage
+                      .from("picrew-psst54")
+                      .upload(fileName, fileObj, {
+                        cacheControl: "3600",
+                        upsert: false,
+                      });
+
+                    if (error) throw new Error();
+                  } catch (e) {}
+                }}
+              >
+                이 이미지를 제출하기
+              </SubmitButton>
             </PreviewContainer>
           )}
         </Body>
