@@ -13,6 +13,7 @@ import { Database } from "@libs/types";
 import Frame from "@components/Frame";
 import { Background } from "@styles/styles";
 import { Body, Title, Emoji } from "@styles/session/styles";
+import ToastMessage from "./ToastMessage";
 import ArrowRight from "./arrowRight";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -186,6 +187,8 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
   const router = useRouter();
   const [data, setData] = react.useState(null);
   const [isMaster, setIsMaster] = react.useState(false);
+  const [toasts, setToasts] = react.useState([]);
+  const [isToastMessageOpen, setIsToastMessageOpen] = react.useState(false);
   const userId = useAppSelector((state) => state.userReducer.id);
 
   const getData = async ({ slug }: { slug: string }) => {
@@ -287,13 +290,22 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
                 <CopiableItemButton
                   onClick={() => {
                     navigator.clipboard
-                      .writeText(data?.password)
+                      .writeText(data?.picrew_link)
                       .then(() => {
-                        console.log("Text copied to clipboard!");
+                        const id = Date.now();
+                        const newToast = {
+                          id,
+                          message: "비밀번호가 복사되었습니다",
+                        };
+
+                        setToasts((oldToasts) => [...oldToasts, newToast]);
+                        setTimeout(() => {
+                          setToasts((oldToasts) =>
+                            oldToasts.filter((toast) => toast.id !== id)
+                          );
+                        }, 5000);
                       })
-                      .catch((error) => {
-                        console.error("Failed to copy text: ", error);
-                      });
+                      .catch((error) => {});
                   }}
                 >
                   복사
@@ -318,11 +330,20 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
                     navigator.clipboard
                       .writeText(data?.picrew_link)
                       .then(() => {
-                        console.log("Text copied to clipboard!");
+                        const id = Date.now();
+                        const newToast = {
+                          id,
+                          message: "링크가 복사되었습니다",
+                        };
+
+                        setToasts((oldToasts) => [...oldToasts, newToast]);
+                        setTimeout(() => {
+                          setToasts((oldToasts) =>
+                            oldToasts.filter((toast) => toast.id !== id)
+                          );
+                        }, 5000);
                       })
-                      .catch((error) => {
-                        console.error("Failed to copy text: ", error);
-                      });
+                      .catch((error) => {});
                   }}
                 >
                   복사
@@ -344,6 +365,8 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
               )}
             </Item>
           </Items>
+
+          <ToastMessage toasts={toasts} />
         </Body>
       </Frame>
     </Background>

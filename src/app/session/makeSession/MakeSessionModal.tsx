@@ -8,8 +8,8 @@ import CryptoJS from "crypto-js";
 
 import styled from "styled-components";
 import { colors } from "@styles/colors";
-import { Button } from "@styles/styles";
 import { Database } from "@libs/types";
+import { Button } from "@styles/styles";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY;
