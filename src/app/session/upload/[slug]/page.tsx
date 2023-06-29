@@ -137,9 +137,7 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
 
       if (error) throw new Error();
 
-      console.log(data);
       const obj = new File([data], "tmp name");
-      console.log(obj);
       setFileObj(obj);
       resolveFile({ fileObj: obj });
     } catch (e) {}
