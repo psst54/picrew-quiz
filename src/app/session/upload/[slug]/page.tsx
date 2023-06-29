@@ -224,13 +224,25 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
                     });
 
                     const fileName = `user_picrew_images/${userId}_${params?.slug}.png`;
-                    const { data, error } = await supabase.storage
-                      .from("picrew-psst54")
-                      .upload(fileName, fileObj, {
-                        upsert: true,
-                      });
+                    const { data: storageData, error: storageError } =
+                      await supabase.storage
+                        .from("picrew-psst54")
+                        .upload(fileName, fileObj, {
+                          upsert: true,
+                        });
 
-                    if (error) throw new Error();
+                    if (storageError) throw new Error();
+
+                    const { data: insertData, error: insertError } =
+                      await supabase.from("images").upsert([
+                        {
+                          session_id: params?.slug,
+                          user_id: userId,
+                          file_name: fileName,
+                        },
+                      ]);
+
+                    if (insertError) throw new Error();
 
                     addToastMessage({
                       message: "이미지를 업로드했습니다!",
