@@ -47,7 +47,7 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
   const userId = useAppSelector((state) => state.userReducer.id);
 
   const [isReadyToUpload, setIsReadyToUpload] = react.useState(false);
-  const [isReadyToAnswer, setIsReadyToAnswer] = react.useState(false);
+  const [isReadyToSolve, setIsReadyToSolve] = react.useState(false);
 
   const getSessionData = react.useCallback(async () => {
     try {
@@ -83,12 +83,12 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
       sessionData?.progress === "upload" &&
       supabaseImageData.length === sessionData?.people.length
     )
-      setIsReadyToAnswer(true);
+      setIsReadyToSolve(true);
   }, [sessionData, params.slug]);
 
   const checkInfoExists = react.useCallback(() => {
-    return isReadyToUpload || isReadyToAnswer;
-  }, [isReadyToUpload, isReadyToAnswer]);
+    return isReadyToUpload || isReadyToSolve;
+  }, [isReadyToUpload, isReadyToSolve]);
 
   const addToastMessage = ({ message }: { message: string }) => {
     const id = Date.now();
@@ -146,22 +146,74 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
                 </InfoItem>
               )}
 
-              {!isMaster && sessionData?.progress === "ready" && (
+              {!isMaster && isReadyToUpload && (
                 <InfoItem>
                   <Emoji src={"/exclamation_mark_twitter.png"} />
                   <InfoText>게임이 시작될 때까지 기다려주세요</InfoText>
                 </InfoItem>
               )}
 
-              {isMaster && isReadyToAnswer && (
+              {isMaster && isReadyToSolve && (
                 <InfoItem>
                   <Emoji src={"/exclamation_mark_twitter.png"} />
                   <InfoText>
-                    문제 맞추기 버튼을 누르고 문제를 풀어주세요
+                    모든 참가자가 이미지를 제출했습니다. 다음 버튼을 눌러 다음
+                    단계로 이동해주세요
                   </InfoText>
                 </InfoItem>
               )}
             </InfoContainer>
+          )}
+
+          {isMaster && (
+            <>
+              {isReadyToUpload && (
+                <StartGameButton
+                  onClick={async () => {
+                    try {
+                      const { error } = await supabase
+                        .from("gameSessions")
+                        .update({ progress: "upload" })
+                        .eq("session_id", params?.slug);
+
+                      if (error) throw new Error();
+
+                      setSessionData({ ...sessionData, progress: "upload" });
+
+                      addToastMessage({
+                        message: "시작합니다!",
+                      });
+                    } catch (e) {}
+                  }}
+                >
+                  시작하기
+                </StartGameButton>
+              )}
+
+              {isReadyToSolve && (
+                <StartGameButton
+                  onClick={async () => {
+                    try {
+                      const { error } = await supabase
+                        .from("gameSessions")
+                        .update({ progress: "solve" })
+                        .eq("session_id", params?.slug);
+
+                      if (error) throw new Error();
+
+                      setSessionData({ ...sessionData, progress: "solve" });
+                      setIsReadyToSolve(false);
+
+                      addToastMessage({
+                        message: "문제 맞추기 탭에서 문제를 풀어주세요!",
+                      });
+                    } catch (e) {}
+                  }}
+                >
+                  다음으로
+                </StartGameButton>
+              )}
+            </>
           )}
 
           <ProgressContainer>
@@ -179,6 +231,9 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
               <ProgressItem
                 isCurrent={sessionData?.progress === "solve"}
                 disabled={sessionData?.progress !== "solve"}
+                onClick={() => {
+                  router.push(`/session/solve/${params?.slug}`);
+                }}
               >
                 문제 맞추기
               </ProgressItem>
@@ -253,29 +308,6 @@ const SessionPage = ({ params }: { params: { slug: string } }) => {
                   <PeopleName>{person}</PeopleName>
                 ))}
               </PeopleContainer>
-
-              {isMaster && sessionData?.progress === "ready" && (
-                <StartGameButton
-                  onClick={async () => {
-                    try {
-                      const { error } = await supabase
-                        .from("gameSessions")
-                        .update({ progress: "upload" })
-                        .eq("session_id", params?.slug);
-
-                      if (error) throw new Error();
-
-                      setSessionData({ ...sessionData, progress: "upload" });
-
-                      addToastMessage({
-                        message: "시작합니다!",
-                      });
-                    } catch (e) {}
-                  }}
-                >
-                  시작하기
-                </StartGameButton>
-              )}
             </Item>
           </Items>
 
