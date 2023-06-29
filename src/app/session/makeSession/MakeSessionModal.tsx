@@ -182,9 +182,7 @@ const MakeSessionModal = ({
                   // router.push(`/session/${sessionId}`);
 
                   router.push(`/session/LKFLHG`);
-                } catch (err) {
-                  console.error("[debug]", err);
-                }
+                } catch (err) {}
               }}
             >
               확인
